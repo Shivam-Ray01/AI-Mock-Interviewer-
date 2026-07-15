@@ -10,4 +10,5 @@ class InterviewSession(Base):
     User_id = Column(Integer,ForeignKey("Users.id"))
     status = Column( String(50), nullable = False)
     created_at = Column(DateTime(timezone= True), server_default= func.now())
-    user = relationship("User", back_populates="sessions")    
+    user = relationship("User", back_populates="sessions")   
+    questions = relationship("Question", back_populates= "session") 
