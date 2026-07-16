@@ -10,7 +10,7 @@ class User(Base):
     name = Column (String(255))
     email = Column(String(255), unique= True, nullable=False)
     password_hash = Column(String(255), nullable=False)
-    created_at = DateTime(timezone= True)
-
+    created_at = Column(DateTime(timezone= True), server_default=func.now())
+    
     sessions = relationship("InterviewSession", back_populates="user")
     

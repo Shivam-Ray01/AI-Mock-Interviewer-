@@ -4,7 +4,8 @@ from datetime import datetime
 class UserCreate(BaseModel):
     email : EmailStr
     password : str
-
+    name :str
+    
 class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True) 
     id : int
