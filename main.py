@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from database import Base, engine
 import models
 from routers.auth import router as auth_route
+from routers.sessions import router as session_route
 
 app = FastAPI(title="AI Mock Interviewer")
 
@@ -14,3 +15,4 @@ def health_check():
 
 
 app.include_router(auth_route)
+app.include_router(session_route)
