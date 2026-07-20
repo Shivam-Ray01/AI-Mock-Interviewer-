@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer , String, DateTime
+from sqlalchemy import Column, Integer , String, DateTime, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 from sqlalchemy.sql import func
@@ -11,5 +11,6 @@ class InterviewSession(Base):
     status = Column( String(50), nullable = False)
     created_at = Column(DateTime(timezone= True), server_default= func.now())
     role = Column(String(115), nullable= False)
+    resume_text = Column(Text, nullable= True)
     user = relationship("User", back_populates="sessions")   
     questions = relationship("Question", back_populates= "session") 
