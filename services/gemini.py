@@ -1,6 +1,7 @@
 import os
 import json
 from google import genai
+from google.genai.types import HttpOptions
 from fastapi import HTTPException
 from dotenv import load_dotenv
 
@@ -11,9 +12,18 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
     raise ValueError("GEMINI_API_KEY is missing from your .env file!")
 
-client = genai.Client(api_key=GEMINI_API_KEY)
+client = genai.Client(api_key=GEMINI_API_KEY,
+            http_options=HttpOptions(api_version="v1"))
 
 def generate_questions(role: str, job_description: str, resume_text: str, count: int = 5) -> list[str]:
+
+    print("=== AVAILABLE GEMINI MODELS ===")
+    try:
+        for m in client.models.list():
+            print(m.name)
+    except Exception as e:
+        print(f"Failed to list models: {e}")
+    print("===============================")
     prompt = f"""
     You are an expert technical interviewer. Generate exactly {count} tailored technical interview questions 
     for a candidate applying for the role of: {role}.
@@ -35,9 +45,10 @@ def generate_questions(role: str, job_description: str, resume_text: str, count:
 
     try:
         response = client.models.generate_content(
-            model='gemini-1.5-flash',
+            model='models/gemini-2.5-flash',
             contents=prompt
         )
+
 
         raw_text = response.text.strip()
 
